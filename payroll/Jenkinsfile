@@ -31,11 +31,22 @@ pipeline {
             }
         }
 
+         stage('Stop Apache') {
+            steps {
+                    echo 'Stoping Apache ..................... '
+            }
+        }
+
         stage('Deploy to Tomcat') {
             steps {
                 dir('payroll') {
                     bat 'copy target\\*.war "C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps\\"'
                 }
+            }
+        }
+        stage('Start Apache') {
+            steps {
+                   echo 'Starting Apache ..................... '
             }
         }
     }
