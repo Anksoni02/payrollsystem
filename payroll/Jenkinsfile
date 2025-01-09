@@ -34,7 +34,7 @@ pipeline {
         stage('Deploy to Tomcat') {
             steps {
                 dir('payroll') {
-                    bat script: '''copy target\\*.war C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps'''
+                    bat 'copy target\\*.war C:\\Program Files\\ApacheSoftwareFoundation\\Tomcat 9.0\\webapps'
                 }
             }
         }
