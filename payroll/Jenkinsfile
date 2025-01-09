@@ -8,14 +8,23 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout the source code from your SCM
+                echo '1. Checkout Source code from SVN'
                 checkout scm
             }
         }
+        stage('Stop Apache') {
+            steps {
+                    echo '2. Stopping Apache Services'
+                    bat 'net stop Tomcat9'
+            }
+        }
+        
         
         stage('Build') {
             steps {
                 // Build the Maven project using Windows batch command                
                 dir('payroll') {
+                    echo '3. Building Maven Project'
                     bat 'mvn clean package'
                 }
 
@@ -26,28 +35,23 @@ pipeline {
             steps {
                 // Run tests (if any) using Windows batch command
                 dir('payroll') {
+                    echo '4. Testing Maven Project'
                     bat 'mvn test'
                 }
-            }
-        }
-
-         stage('Stop Apache') {
-            steps {
-                    echo 'Stoping Apache ..................... '
-                    bat 'net stop Tomcat9'
             }
         }
 
         stage('Deploy to Tomcat') {
             steps {
                 dir('payroll') {
+                    echo '5. Deploying War file on Tomcat Server'
                     bat 'copy target\\*.war "C:\\Program Files\\Apache Software Foundation\\Tomcat 9.0\\webapps\\"'
                 }
             }
         }
         stage('Start Apache') {
             steps {
-                   echo 'Starting Apache ..................... '
+                   echo '6. Starting Apache Services Again'
                    bat 'net start Tomcat9'
             }
         }
