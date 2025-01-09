@@ -34,6 +34,7 @@ pipeline {
          stage('Stop Apache') {
             steps {
                     echo 'Stoping Apache ..................... '
+                    bat 'net stop Tomcat9'
             }
         }
 
@@ -47,6 +48,7 @@ pipeline {
         stage('Start Apache') {
             steps {
                    echo 'Starting Apache ..................... '
+                   bat 'net start Tomcat9'
             }
         }
     }
